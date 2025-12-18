@@ -132,21 +132,9 @@ export default function CollectionSelector({
 
       {/* Tab Content Area - Create Form */}
       {showCreateForm && (
-        <div className="bg-gray-800 border-t-2 border-indigo-500 rounded-b-lg p-4">
-          <div className="max-w-2xl">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-white">Create New Collection</h3>
-              <button
-                onClick={() => {
-                  setShowCreateForm(false);
-                  setNewCollectionName("");
-                  setNewCollectionDesc("");
-                }}
-                className="p-1 hover:bg-gray-700 rounded transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+      <div className="bg-gray-800 border-t-2 border-indigo-500 rounded-b-lg p-4">
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-medium text-gray-300 whitespace-nowrap">New Collection:</span>
             <input
               type="text"
               placeholder="Collection name (e.g., Movies, Games)"
@@ -154,55 +142,35 @@ export default function CollectionSelector({
               onChange={(e) => setNewCollectionName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleCreate()}
               autoFocus
-              className="w-full px-4 py-2 mb-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 px-3 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
-            <textarea
-              placeholder="Description (optional)"
-              value={newCollectionDesc}
-              onChange={(e) => setNewCollectionDesc(e.target.value)}
-              className="w-full px-4 py-2 mb-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
-              rows={2}
-            />
-            <div className="flex gap-2">
-              <button
-                onClick={handleCreate}
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-colors text-white"
-                disabled={loading || !newCollectionName.trim()}
-              >
-                Create Collection
-              </button>
-              <button
-                onClick={() => {
-                  setShowCreateForm(false);
-                  setNewCollectionName("");
-                  setNewCollectionDesc("");
-                }}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors text-white"
-              >
-                Cancel
-              </button>
-            </div>
+            <button
+              onClick={handleCreate}
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-colors text-white text-sm whitespace-nowrap"
+              disabled={loading || !newCollectionName.trim()}
+            >
+              Create
+            </button>
+            <button
+              onClick={() => {
+                setShowCreateForm(false);
+                setNewCollectionName("");
+                setNewCollectionDesc("");
+              }}
+              className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-gray-300"
+              title="Cancel"
+            >
+              <X className="w-4 h-4" />
+            </button>
           </div>
         </div>
       )}
 
       {/* Tab Content Area - Edit Form */}
       {editingId && (
-        <div className="bg-gray-800 border-t-2 border-indigo-500 rounded-b-lg p-4">
-          <div className="max-w-2xl">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-white">Edit Collection</h3>
-              <button
-                onClick={() => {
-                  setEditingId(null);
-                  setNewCollectionName("");
-                  setNewCollectionDesc("");
-                }}
-                className="p-1 hover:bg-gray-700 rounded transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+       <div className="bg-gray-800 border-t-2 border-indigo-500 rounded-b-lg p-4">
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-medium text-gray-300 whitespace-nowrap">Edit Collection:</span>
             <input
               type="text"
               placeholder="Collection name"
@@ -210,34 +178,26 @@ export default function CollectionSelector({
               onChange={(e) => setNewCollectionName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
               autoFocus
-              className="w-full px-4 py-2 mb-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 px-3 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
-            <textarea
-              placeholder="Description (optional)"
-              value={newCollectionDesc}
-              onChange={(e) => setNewCollectionDesc(e.target.value)}
-              className="w-full px-4 py-2 mb-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
-              rows={2}
-            />
-            <div className="flex gap-2">
-              <button
-                onClick={handleUpdate}
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-colors text-white"
-                disabled={loading || !newCollectionName.trim()}
-              >
-                Save Changes
-              </button>
-              <button
-                onClick={() => {
-                  setEditingId(null);
-                  setNewCollectionName("");
-                  setNewCollectionDesc("");
-                }}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors text-white"
-              >
-                Cancel
-              </button>
-            </div>
+            <button
+              onClick={handleUpdate}
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-colors text-white text-sm whitespace-nowrap"
+              disabled={loading || !newCollectionName.trim()}
+            >
+              Save
+            </button>
+            <button
+              onClick={() => {
+                setEditingId(null);
+                setNewCollectionName("");
+                setNewCollectionDesc("");
+              }}
+              className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-gray-300"
+              title="Cancel"
+            >
+              <X className="w-4 h-4" />
+            </button>
           </div>
         </div>
       )}
