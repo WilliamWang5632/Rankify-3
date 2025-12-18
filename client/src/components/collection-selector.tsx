@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { X, Plus, Edit2 } from "lucide-react";
 import type { Collection } from "../interfaces/collection";
 
 interface CollectionSelectorProps {
@@ -21,9 +22,10 @@ export default function CollectionSelector({
   loading,
 }: CollectionSelectorProps) {
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [showEditForm, setShowEditForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [newCollectionName, setNewCollectionName] = useState("");
   const [newCollectionDesc, setNewCollectionDesc] = useState("");
+  const [hoveredTab, setHoveredTab] = useState<string | null>(null);
 
   const handleCreate = async () => {
     if (!newCollectionName.trim()) return;
@@ -40,165 +42,209 @@ export default function CollectionSelector({
   };
 
   const handleUpdate = async () => {
-    if (!currentCollection || !newCollectionName.trim()) return;
+    if (!editingId || !newCollectionName.trim()) return;
 
     try {
-      await updateCollection(currentCollection.id, newCollectionName, newCollectionDesc);
+      await updateCollection(editingId, newCollectionName, newCollectionDesc);
       setNewCollectionName("");
       setNewCollectionDesc("");
-      setShowEditForm(false);
+      setEditingId(null);
     } catch (err) {
       // Error handled by hook
     }
   };
 
-  const handleDelete = async () => {
-    if (!currentCollection) return;
-    await deleteCollection(currentCollection.id);
+  const handleDelete = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    await deleteCollection(id);
   };
 
-  const openEditForm = () => {
-    if (!currentCollection) return;
-    setNewCollectionName(currentCollection.name);
-    setNewCollectionDesc(currentCollection.description || "");
-    setShowEditForm(true);
+  const openEditForm = (collection: Collection, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setNewCollectionName(collection.name);
+    setNewCollectionDesc(collection.description || "");
+    setEditingId(collection.id);
   };
 
   return (
-    <div className="mb-6 bg-gray-800 rounded-lg p-4">
-      <div className="flex flex-wrap items-center gap-4">
-        {/* Collection Dropdown */}
-        <div className="flex-1 min-w-[200px]">
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Current Collection
-          </label>
-          <select
-            value={currentCollection?.id || ""}
-            onChange={(e) => {
-              const collection = collections.find((c) => c.id === e.target.value);
-              setCurrentCollection(collection || null);
-            }}
-            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            disabled={loading}
+    <div className="mb-3">
+      {/* Tab Bar */}
+      <div className="bg-gray-800 rounded-t-lg px-2 pt-2 flex items-end gap-1 overflow-x-auto">
+        {/* Collection Tabs */}
+        {collections.map((collection) => (
+          <div
+            key={collection.id}
+            onMouseEnter={() => setHoveredTab(collection.id)}
+            onMouseLeave={() => setHoveredTab(null)}
+            onClick={() => setCurrentCollection(collection)}
+            className={`
+              group relative flex items-center gap-2 px-2 py-2 rounded-t-lg cursor-pointer
+              transition-all duration-200 min-w-[120px] max-w-[200px]
+              ${
+                currentCollection?.id === collection.id
+                  ? "bg-gray-900 text-white border-t-2 border-indigo-500"
+                  : "bg-gray-700 text-gray-300 hover:bg-gray-650 hover:text-white"
+              }
+            `}
           >
-            <option value="">Select a collection...</option>
-            {collections.map((collection) => (
-              <option key={collection.id} value={collection.id}>
-                {collection.name} ({collection.ratingCount || 0} ratings)
-              </option>
-            ))}
-          </select>
-        </div>
+            <span className="truncate flex-1 text-sm font-medium">
+              {collection.name}
+            </span>
+            <span className="text-xs text-gray-400">
+              ({collection.ratingCount || 0})
+            </span>
 
-        {/* Action Buttons */}
-        <div className="flex gap-2 items-end">
-          <button
-            onClick={() => setShowCreateForm(!showCreateForm)}
-            className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg font-medium transition-colors"
-            disabled={loading}
-          >
-            + New
-          </button>
+            {/* Hover Actions */}
+            {(
+              <div className="flex items-center gap-0.5 ml-1">
+                <button
+                  onClick={(e) => openEditForm(collection, e)}
+                  className="p-1 hover:bg-gray-700 rounded transition-colors"
+                  title="Edit collection"
+                  disabled={loading}
+                >
+                  <Edit2 className="w-2 h-2" />
+                </button>
+                <button
+                  onClick={(e) => handleDelete(collection.id, e)}
+                  className="p-1 hover:bg-red-600 rounded transition-colors"
+                  title="Delete collection"
+                  disabled={loading}
+                >
+                  <X className="w-2 h-2" />
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
 
-          {currentCollection && (
-            <>
-              <button
-                onClick={openEditForm}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors"
-                disabled={loading}
-              >
-                Edit
-              </button>
-              <button
-                onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition-colors"
-                disabled={loading}
-              >
-                Delete
-              </button>
-            </>
-          )}
-        </div>
+        {/* New Tab Button */}
+        <button
+          onClick={() => setShowCreateForm(!showCreateForm)}
+          className="flex items-center gap-2 px-3 py-2 rounded-full bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white transition-colors"
+          disabled={loading}
+          title="Create new collection"
+        >
+          <Plus className="w-4 h-4" />
+          <span className="text-sm font-medium">New</span>
+        </button>
       </div>
 
-      {/* Create Form */}
+      {/* Tab Content Area - Create Form */}
       {showCreateForm && (
-        <div className="mt-4 p-4 bg-gray-700 rounded-lg">
-          <h3 className="text-lg font-semibold mb-3">Create New Collection</h3>
-          <input
-            type="text"
-            placeholder="Collection name (e.g., Movies, Games)"
-            value={newCollectionName}
-            onChange={(e) => setNewCollectionName(e.target.value)}
-            className="w-full px-4 py-2 mb-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
-          />
-          <textarea
-            placeholder="Description (optional)"
-            value={newCollectionDesc}
-            onChange={(e) => setNewCollectionDesc(e.target.value)}
-            className="w-full px-4 py-2 mb-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 resize-none"
-            rows={2}
-          />
-          <div className="flex gap-2">
-            <button
-              onClick={handleCreate}
-              className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg font-medium transition-colors"
-              disabled={loading || !newCollectionName.trim()}
-            >
-              Create
-            </button>
-            <button
-              onClick={() => {
-                setShowCreateForm(false);
-                setNewCollectionName("");
-                setNewCollectionDesc("");
-              }}
-              className="px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg font-medium transition-colors"
-            >
-              Cancel
-            </button>
+        <div className="bg-gray-800 border-t-2 border-indigo-500 rounded-b-lg p-4">
+          <div className="max-w-2xl">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-semibold text-white">Create New Collection</h3>
+              <button
+                onClick={() => {
+                  setShowCreateForm(false);
+                  setNewCollectionName("");
+                  setNewCollectionDesc("");
+                }}
+                className="p-1 hover:bg-gray-700 rounded transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <input
+              type="text"
+              placeholder="Collection name (e.g., Movies, Games)"
+              value={newCollectionName}
+              onChange={(e) => setNewCollectionName(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleCreate()}
+              autoFocus
+              className="w-full px-4 py-2 mb-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            />
+            <textarea
+              placeholder="Description (optional)"
+              value={newCollectionDesc}
+              onChange={(e) => setNewCollectionDesc(e.target.value)}
+              className="w-full px-4 py-2 mb-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
+              rows={2}
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={handleCreate}
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-colors text-white"
+                disabled={loading || !newCollectionName.trim()}
+              >
+                Create Collection
+              </button>
+              <button
+                onClick={() => {
+                  setShowCreateForm(false);
+                  setNewCollectionName("");
+                  setNewCollectionDesc("");
+                }}
+                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors text-white"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Edit Form */}
-      {showEditForm && currentCollection && (
-        <div className="mt-4 p-4 bg-gray-700 rounded-lg">
-          <h3 className="text-lg font-semibold mb-3">Edit Collection</h3>
-          <input
-            type="text"
-            placeholder="Collection name"
-            value={newCollectionName}
-            onChange={(e) => setNewCollectionName(e.target.value)}
-            className="w-full px-4 py-2 mb-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
-          />
-          <textarea
-            placeholder="Description (optional)"
-            value={newCollectionDesc}
-            onChange={(e) => setNewCollectionDesc(e.target.value)}
-            className="w-full px-4 py-2 mb-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-blue-500 resize-none"
-            rows={2}
-          />
-          <div className="flex gap-2">
-            <button
-              onClick={handleUpdate}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors"
-              disabled={loading || !newCollectionName.trim()}
-            >
-              Save
-            </button>
-            <button
-              onClick={() => {
-                setShowEditForm(false);
-                setNewCollectionName("");
-                setNewCollectionDesc("");
-              }}
-              className="px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg font-medium transition-colors"
-            >
-              Cancel
-            </button>
+      {/* Tab Content Area - Edit Form */}
+      {editingId && (
+        <div className="bg-gray-800 border-t-2 border-indigo-500 rounded-b-lg p-4">
+          <div className="max-w-2xl">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-semibold text-white">Edit Collection</h3>
+              <button
+                onClick={() => {
+                  setEditingId(null);
+                  setNewCollectionName("");
+                  setNewCollectionDesc("");
+                }}
+                className="p-1 hover:bg-gray-700 rounded transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <input
+              type="text"
+              placeholder="Collection name"
+              value={newCollectionName}
+              onChange={(e) => setNewCollectionName(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
+              autoFocus
+              className="w-full px-4 py-2 mb-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            />
+            <textarea
+              placeholder="Description (optional)"
+              value={newCollectionDesc}
+              onChange={(e) => setNewCollectionDesc(e.target.value)}
+              className="w-full px-4 py-2 mb-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
+              rows={2}
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={handleUpdate}
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-colors text-white"
+                disabled={loading || !newCollectionName.trim()}
+              >
+                Save Changes
+              </button>
+              <button
+                onClick={() => {
+                  setEditingId(null);
+                  setNewCollectionName("");
+                  setNewCollectionDesc("");
+                }}
+                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors text-white"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
+      )}
+
+      {/* No form showing - just tab bar bottom border */}
+      {!showCreateForm && !editingId && (
+        <div className="bg-gray-900 h-1"></div>
       )}
     </div>
   );
