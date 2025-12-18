@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { connectDatabase } from "./config/database.js";
+import collectionRoutes from "./routes/collectionRoutes.js";
 import ratingRoutes from "./routes/ratingRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
@@ -22,6 +23,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // API routes
+app.use("/collections", collectionRoutes);
 app.use("/ratings", ratingRoutes);
 
 // Error handling middleware (must be last)

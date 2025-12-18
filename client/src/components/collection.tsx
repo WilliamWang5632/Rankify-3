@@ -1,4 +1,3 @@
-import useRating from "../hooks/useRating";
 import AddRating from "./add-rating";
 import Stats from "./stats";
 import SearchSort from "./search-sort";
@@ -6,7 +5,11 @@ import Empty from "./empty";
 import Ratings from "./ratings";
 import Loading from "./loading";
 
-export default function Collection() {
+interface CollectionProps {
+  ratings: ReturnType<typeof import("../hooks/useRating").default>;
+}
+
+export default function Collection({ ratings }: CollectionProps) {
   const {
     getStats,
     searchTerm,
@@ -24,14 +27,14 @@ export default function Collection() {
     handleImageUpload,
     setForm,
     handleSubmit,
-    blank,
-    setEditing,
+    cancelEdit,
     clearMessages,
     isFormExpanded,
     setIsFormExpanded,
-  } = useRating();
+  } = ratings;
 
   const stats = getStats();
+
   return (
     <div className="grid lg:grid-cols-5 gap-6">
       {/* Left Side - Form */}
@@ -44,12 +47,12 @@ export default function Collection() {
         handleImageUpload={handleImageUpload}
         setForm={setForm}
         handleSubmit={handleSubmit}
-        blank={blank}
-        setEditing={setEditing}
+        cancelEdit={cancelEdit}
         clearMessages={clearMessages}
         isFormExpanded={isFormExpanded}
         setIsFormExpanded={setIsFormExpanded}
       />
+
       {/* Right Side - List */}
       <div
         className={`${

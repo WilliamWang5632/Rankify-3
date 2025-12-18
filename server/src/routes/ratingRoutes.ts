@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { 
-  getAllRatings, 
+  getAllRatings,
+  getRatingsByCollection,
   createRating, 
   updateRating, 
   deleteRating 
@@ -8,11 +9,14 @@ import {
 
 const router = Router();
 
-// GET /api/ratings - Get all ratings
+// GET /api/ratings - Get all ratings (across all collections)
 router.get("/", getAllRatings);
 
-// POST /api/ratings - Create a new rating
-router.post("/", createRating);
+// GET /api/ratings/collection/:collectionId - Get all ratings for a specific collection
+router.get("/collection/:collectionId", getRatingsByCollection);
+
+// POST /api/ratings/collection/:collectionId - Create a new rating in a collection
+router.post("/collection/:collectionId", createRating);
 
 // PUT /api/ratings/:id - Update a rating
 router.put("/:id", updateRating);

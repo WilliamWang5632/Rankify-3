@@ -1,8 +1,9 @@
 export interface Rating {
   id: string;
+  collectionId: string;
   name: string;
   picture?: string;
-  rating: number; // 0–10 with decimals
+  rating: number;
   review: string;
   createdAt?: string;
 }
