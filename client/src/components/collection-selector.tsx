@@ -99,7 +99,7 @@ export default function CollectionSelector({
               <div className="flex items-center gap-0.5 ml-1">
                 <button
                   onClick={(e) => openEditForm(collection, e)}
-                  className="p-1 hover:bg-gray-700 rounded transition-colors"
+                  className="p-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
                   title="Edit collection"
                   disabled={loading}
                 >
@@ -107,7 +107,7 @@ export default function CollectionSelector({
                 </button>
                 <button
                   onClick={(e) => handleDelete(collection.id, e)}
-                  className="p-1 hover:bg-red-600 rounded transition-colors"
+                  className="p-1 bg-gray-700 hover:bg-red-600 rounded transition-colors"
                   title="Delete collection"
                   disabled={loading}
                 >
