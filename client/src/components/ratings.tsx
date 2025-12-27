@@ -18,7 +18,7 @@ export default function Ratings({
 }) {
   return (
     <div
-      className={`${isFormExpanded ? "lg:grid-cols-5 md:grid-cols-4" : "lg:grid-cols-6 md:grid-cols-5"} grid gap-3`}
+      className={`${isFormExpanded ? "lg:grid-cols-7 md:grid-cols-6" : "lg:grid-cols-8 md:grid-cols-7"} grid gap-2`}
     >
       {filteredAndSortedItems.map((item: Rating) => (
         <Card
@@ -30,30 +30,25 @@ export default function Ratings({
               <img
                 src={item.picture}
                 alt={item.name}
-                className="w-full h-40 object-cover"
+                className="w-full h-32 object-cover"
                 onError={(e) => {
                   e.currentTarget.src = `https://images.unsplash.com/photo-1489599953329-c414b2b12d83?w=400&h=300&fit=crop&t=${item.id}`;
                 }}
               />
-              <div className="absolute top-2 right-2 bg-black/80 backdrop-blur rounded px-2 py-1">
-                <span className="text-white text-sm font-bold">
-                  {item.rating}/10
-                </span>
-              </div>
             </div>
 
-            <div className="p-4 flex flex-col flex-1">
-              <h3 className="text-sm font-bold mb-2 text-white line-clamp-2 h-10">
+            <div className="p-2 flex flex-col flex-1">
+              <h3 className="text-xs font-bold mb-2 text-white line-clamp-2 h-8">
                 {item.name}
               </h3>
 
-              <div className="mb-3">
+              <div className="mb-1">
                 <RatingProgressBar rating={item.rating} />
               </div>
 
-              <div className="flex gap-2 mt-auto">
+              <div className="flex gap-1 mt-auto">
                 <Button
-                  size="sm"
+                  size="xs"
                   onClick={() => handleEdit(item)}
                   className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
                   disabled={loading}
@@ -61,7 +56,7 @@ export default function Ratings({
                   Edit
                 </Button>
                 <Button
-                  size="sm"
+                  size="xs"
                   onClick={() => handleDelete(item.id)}
                   className="flex-1 bg-[#d62d2d] hover:bg-[#a61e1e] text-white"
                   disabled={loading}
