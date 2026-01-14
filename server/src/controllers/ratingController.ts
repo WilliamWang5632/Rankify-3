@@ -1,8 +1,31 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { Rating } from "../models/rating";
+import { Rating } from "../models/rating.js";
+import { Collection } from "../models/collection.js";
 import { validateRatingData } from "../utils/validation.js";
 
+// Get all ratings for a specific collection
+export const getRatingsByCollection = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { collectionId } = req.params;
+    
+    // Verify collection exists
+    const collection = await Collection.findById(collectionId);
+    if (!collection) {
+      res.status(404).json({ error: "Collection not found" });
+      return;
+    }
+    
+    const ratings = await Rating.find({ collectionId }).sort({ createdAt: -1 });
+    console.log(`Found ${ratings.length} ratings for collection ${collectionId}`);
+    res.json(ratings);
+  } catch (err) {
+    console.error("Error fetching ratings:", err);
+    res.status(500).json({ error: "Failed to fetch ratings", details: err });
+  }
+};
+
+// Get all ratings (across all collections)
 export const getAllRatings = async (req: Request, res: Response): Promise<void> => {
   try {
     const ratings = await Rating.find().sort({ createdAt: -1 });
@@ -16,6 +39,15 @@ export const getAllRatings = async (req: Request, res: Response): Promise<void> 
 
 export const createRating = async (req: Request, res: Response): Promise<void> => {
   try {
+    const { collectionId } = req.params;
+    
+    // Verify collection exists
+    const collection = await Collection.findById(collectionId);
+    if (!collection) {
+      res.status(404).json({ error: "Collection not found" });
+      return;
+    }
+    
     // Validation
     const validation = validateRatingData(req.body);
     if (!validation.isValid) {
@@ -24,6 +56,7 @@ export const createRating = async (req: Request, res: Response): Promise<void> =
     }
 
     const newRating = new Rating({
+      collectionId: collectionId,
       name: req.body.name.trim(),
       picture: req.body.picture || "",
       rating: Number(req.body.rating),

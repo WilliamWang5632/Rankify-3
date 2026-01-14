@@ -4,6 +4,24 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import type { Rating } from "../interfaces/rating";
+import React from "react";
+
+interface AddRatingProps {
+  loading: boolean;
+  editing: boolean;
+  form: Omit<Rating, "id" | "collectionId">;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
+  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
+  setForm: React.Dispatch<React.SetStateAction<Omit<Rating, "id" | "collectionId">>>;
+  handleSubmit: () => Promise<void>;
+  cancelEdit: () => void;
+  clearMessages: () => void;
+  isFormExpanded: boolean;
+  setIsFormExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export default function AddRating({
   loading,
@@ -14,28 +32,10 @@ export default function AddRating({
   handleImageUpload,
   setForm,
   handleSubmit,
-  blank,
-  setEditing,
-  clearMessages,
+  cancelEdit,
   isFormExpanded,
   setIsFormExpanded,
-}: {
-  loading: boolean;
-  editing: boolean;
-  form: Rating;
-  handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-  fileInputRef: React.RefObject<HTMLInputElement | null>;
-  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
-  setForm: React.Dispatch<React.SetStateAction<Rating>>;
-  handleSubmit: () => Promise<void>;
-  blank: Rating;
-  setEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  clearMessages: () => void;
-  isFormExpanded: boolean;
-  setIsFormExpanded: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+}: AddRatingProps) {
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     setForm({ ...form, rating: value });
@@ -168,14 +168,7 @@ export default function AddRating({
 
               {editing && (
                 <Button
-                  onClick={() => {
-                    setForm(blank);
-                    setEditing(false);
-                    clearMessages();
-                    if (fileInputRef.current) {
-                      fileInputRef.current.value = "";
-                    }
-                  }}
+                  onClick={cancelEdit}
                   className="bg-gray-600 hover:bg-gray-700 text-white"
                 >
                   Cancel
