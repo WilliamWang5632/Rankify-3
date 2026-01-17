@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: '.env' });
 
+
 async function importData() {
   try {
     console.log('Connecting to MongoDB...');
