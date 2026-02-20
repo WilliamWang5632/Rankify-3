@@ -36,8 +36,9 @@ export default function Collection({ ratings }: CollectionProps) {
   const stats = getStats();
 
   return (
-    <div className="grid lg:grid-cols-5 gap-6">
+    <div className="flex gap-6 w-full">
       {/* Left Side - Form */}
+      <div className={`shrink-0 ${isFormExpanded ? "w-96" : "w-60"} transition-all duration-300`}>
       <AddRating
         loading={loading}
         editing={editing}
@@ -52,13 +53,10 @@ export default function Collection({ ratings }: CollectionProps) {
         isFormExpanded={isFormExpanded}
         setIsFormExpanded={setIsFormExpanded}
       />
+      </div>
 
       {/* Right Side - List */}
-      <div
-        className={`${
-          isFormExpanded ? "lg:col-span-3" : "lg:col-span-4"
-        } transition-all duration-300 ease-in-out`}
-      >
+      <div className="flex-1 min-w-0">
         {/* Search and Sort Controls */}
         <SearchSort
           searchTerm={searchTerm}

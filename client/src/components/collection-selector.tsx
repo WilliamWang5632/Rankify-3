@@ -29,7 +29,7 @@ export default function CollectionSelector({
 
   const handleCreate = async () => {
     if (!newCollectionName.trim()) return;
-
+    console.log(hoveredTab);
     try {
       const collection = await createCollection(newCollectionName, newCollectionDesc);
       setCurrentCollection(collection);
