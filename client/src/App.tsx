@@ -4,6 +4,7 @@ import AlertMessages from "./components/alerts";
 import Header from "./components/header";
 import CollectionSelector from "./components/collection-selector";
 import Collection from "./components/collection";
+import Loading from "./components/loading";
 
 export default function App() {
   const collections = useCollections();
@@ -14,15 +15,13 @@ export default function App() {
   // Combine error/success messages from both hooks
   const error = collections.error || ratings.error;
   const success = collections.success || ratings.success;
+  const isLoading = collections.loading || ratings.loading;
 
   return (
     <div className="min-h-screen w-full bg-gray-900 text-white min-w-[100vw]">
       <div className="min-w-full max-w-full mx-auto px-8 py-2">
         {/* Header */}
         <Header />
-
-        {/* Messages */}
-        <AlertMessages error={error} success={success} />
 
         {/* Collection Selector */}
         <CollectionSelector 
@@ -35,15 +34,22 @@ export default function App() {
           loading={collections.loading}
         />
 
+        {/* Messages */}
+        <AlertMessages error={error} success={success} />
+
+        {isLoading && <Loading loading={isLoading} />}
+
         {/* Collection Content */}
-        {collections.currentCollection ? (
-          <Collection ratings={ratings} />
-        ) : (
-          <div className="text-center py-12 min-w-full">
-            <p className="text-gray-400 text-lg">
-              Select or create a collection to get started
-            </p>
-          </div>
+        {!isLoading && (
+          collections.currentCollection ? (
+            <Collection ratings={ratings} />
+          ) : (
+            <div className="text-center py-12 min-w-full">
+              <p className="text-gray-400 text-lg">
+                Select or create a collection to get started
+              </p>
+            </div>
+          )
         )}
       </div>
     </div>

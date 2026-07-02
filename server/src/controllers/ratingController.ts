@@ -40,15 +40,13 @@ export const getAllRatings = async (req: Request, res: Response): Promise<void> 
 export const createRating = async (req: Request, res: Response): Promise<void> => {
   try {
     const { collectionId } = req.params;
-    
-    // Verify collection exists
+
     const collection = await Collection.findById(collectionId);
     if (!collection) {
       res.status(404).json({ error: "Collection not found" });
       return;
     }
-    
-    // Validation
+
     const validation = validateRatingData(req.body);
     if (!validation.isValid) {
       res.status(400).json({ error: validation.error });
@@ -61,6 +59,8 @@ export const createRating = async (req: Request, res: Response): Promise<void> =
       picture: req.body.picture || "",
       rating: Number(req.body.rating),
       review: req.body.review.trim(),
+      releaseDate: req.body.releaseDate ? new Date(req.body.releaseDate) : undefined,
+      completionDate: req.body.completionDate ? new Date(req.body.completionDate) : undefined,
       createdAt: req.body.createdAt ? new Date(req.body.createdAt) : new Date()
     });
 
@@ -70,15 +70,9 @@ export const createRating = async (req: Request, res: Response): Promise<void> =
   } catch (err) {
     console.error("❌ Error creating rating:", err);
     if (err instanceof mongoose.Error.ValidationError) {
-      res.status(400).json({ 
-        error: "Validation error", 
-        details: err.message 
-      });
+      res.status(400).json({ error: "Validation error", details: err.message });
     } else {
-      res.status(500).json({ 
-        error: "Failed to create rating", 
-        details: err 
-      });
+      res.status(500).json({ error: "Failed to create rating", details: err });
     }
   }
 };
@@ -92,6 +86,8 @@ export const updateRating = async (req: Request, res: Response): Promise<void> =
         picture: req.body.picture,
         rating: req.body.rating,
         review: req.body.review?.trim(),
+        releaseDate: req.body.releaseDate ? new Date(req.body.releaseDate) : undefined,
+        completionDate: req.body.completionDate ? new Date(req.body.completionDate) : undefined,
       },
       { new: true, runValidators: true }
     );

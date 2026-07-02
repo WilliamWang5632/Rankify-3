@@ -1,9 +1,11 @@
 import AddRating from "./add-rating";
-import Stats from "./stats";
+// import Stats from "./stats";
 import SearchSort from "./search-sort";
 import Empty from "./empty";
 import Ratings from "./ratings";
+import RatingsList from "./ratings-list";
 import Loading from "./loading";
+import { Plus } from "lucide-react";
 
 interface CollectionProps {
   ratings: ReturnType<typeof import("../hooks/useRating").default>;
@@ -11,14 +13,13 @@ interface CollectionProps {
 
 export default function Collection({ ratings }: CollectionProps) {
   const {
-    getStats,
+    //getStats,
     searchTerm,
     setSearchTerm,
     sortBy,
     setSortBy,
     loading,
     filteredAndSortedItems,
-    handleEdit,
     handleDelete,
     editing,
     form,
@@ -27,19 +28,68 @@ export default function Collection({ ratings }: CollectionProps) {
     handleImageUpload,
     setForm,
     handleSubmit,
-    cancelEdit,
-    clearMessages,
-    isFormExpanded,
-    setIsFormExpanded,
+    isModalOpen,
+    openAddModal,
+    openEditModal,
+    closeModal,
+    viewMode,
+    setViewMode,
   } = ratings;
 
-  const stats = getStats();
+  //const stats = getStats();
 
   return (
-    <div className="flex gap-6 w-full">
-      {/* Left Side - Form */}
-      <div className={`shrink-0 ${isFormExpanded ? "w-96" : "w-60"} transition-all duration-300`}>
+    <div className="w-full">
+      <div className="flex justify-between items-center mb-3">
+        <SearchSort
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          viewMode={viewMode}
+          setViewMode={setViewMode}
+        />
+      </div>
+
+      {/* <Stats stats={stats} /> */}
+
+      {loading && <Loading loading={loading} />}
+
+      <Empty
+        loading={loading}
+        filteredAndSortedItems={filteredAndSortedItems}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
+
+      {!loading &&
+        (viewMode === "grid" ? (
+          <Ratings
+            filteredAndSortedItems={filteredAndSortedItems}
+            openEditModal={openEditModal}
+            loading={loading}
+            handleDelete={handleDelete}
+          />
+        ) : (
+          <RatingsList
+            filteredAndSortedItems={filteredAndSortedItems}
+            openEditModal={openEditModal}
+            loading={loading}
+            handleDelete={handleDelete}
+          />
+        ))}
+
+      {/* Floating Add Button */}
+      <button
+        onClick={openAddModal}
+        className="fixed bottom-6 right-6 z-40 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-colors"
+        aria-label="Add rating"
+      >
+        <Plus className="w-6 h-6" />
+      </button>
+
       <AddRating
+        isOpen={isModalOpen}
         loading={loading}
         editing={editing}
         form={form}
@@ -48,48 +98,8 @@ export default function Collection({ ratings }: CollectionProps) {
         handleImageUpload={handleImageUpload}
         setForm={setForm}
         handleSubmit={handleSubmit}
-        cancelEdit={cancelEdit}
-        clearMessages={clearMessages}
-        isFormExpanded={isFormExpanded}
-        setIsFormExpanded={setIsFormExpanded}
+        closeModal={closeModal}
       />
-      </div>
-
-      {/* Right Side - List */}
-      <div className="flex-1 min-w-0">
-        {/* Search and Sort Controls */}
-        <SearchSort
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-        />
-
-        {/* Stats */}
-        <Stats stats={stats} />
-
-        {/* Loading State */}
-        {loading && <Loading loading={loading} />}
-
-        {/* Empty State */}
-        <Empty
-          loading={loading}
-          filteredAndSortedItems={filteredAndSortedItems}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-        />
-
-        {/* Rating Cards Grid */}
-        {!loading && (
-          <Ratings
-            filteredAndSortedItems={filteredAndSortedItems}
-            handleEdit={handleEdit}
-            loading={loading}
-            handleDelete={handleDelete}
-            isFormExpanded={isFormExpanded}
-          />
-        )}
-      </div>
     </div>
   );
 }

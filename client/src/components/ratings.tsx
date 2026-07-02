@@ -1,36 +1,44 @@
 import { Card, CardContent } from "./ui/card";
-import { Button } from "./ui/button";
 import type { Rating } from "../interfaces/rating";
 import RatingProgressBar from "./progress-bar";
 
 export default function Ratings({
   filteredAndSortedItems,
-  handleEdit,
+  openEditModal,
   loading,
   handleDelete,
-  isFormExpanded,
 }: {
   filteredAndSortedItems: Rating[];
-  handleEdit: (item: Rating) => void;
+  openEditModal: (item: Rating) => void;
   loading: boolean;
   handleDelete: (id: string) => void;
-  isFormExpanded: boolean;
 }) {
   return (
-    <div
-      className={`${isFormExpanded ? "lg:grid-cols-7 md:grid-cols-6" : "lg:grid-cols-8 md:grid-cols-7"} grid gap-2 min-w-full`}
-    >
+    <div className="grid gap-3 min-w-full grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10">
       {filteredAndSortedItems.map((item: Rating) => (
         <Card
           key={item.id}
-          className="group hover:bg-gray-750 transition-colors duration-200 bg-gray-800 border-gray-700"
+          onClick={() => !loading && openEditModal(item)}
+          className="group relative hover:bg-gray-750 transition-colors duration-200 bg-gray-800 border-gray-700 cursor-pointer"
         >
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(item.id);
+            }}
+            disabled={loading}
+            className="absolute top-1 right-1 z-10 bg-[#434343] hover:bg-[#c52b2b] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold leading-none transition-colors"
+            aria-label="Delete rating"
+          >
+            ×
+          </button>
+
           <CardContent className="p-0 flex flex-col h-full">
-            <div className="relative overflow-hidden rounded-t-lg">
+            <div className="relative overflow-hidden rounded-t-lg aspect-square">
               <img
                 src={item.picture}
                 alt={item.name}
-                className="w-full h-32 object-cover"
+                className="w-full h-full object-cover"
                 onError={(e) => {
                   e.currentTarget.src = `https://images.unsplash.com/photo-1489599953329-c414b2b12d83?w=400&h=300&fit=crop&t=${item.id}`;
                 }}
@@ -46,24 +54,12 @@ export default function Ratings({
                 <RatingProgressBar rating={item.rating} />
               </div>
 
-              <div className="flex gap-1 mt-auto">
-                <Button
-                  size="xs"
-                  onClick={() => handleEdit(item)}
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
-                  disabled={loading}
-                >
-                  Edit
-                </Button>
-                <Button
-                  size="xs"
-                  onClick={() => handleDelete(item.id)}
-                  className="flex-1 bg-[#d62d2d] hover:bg-[#a61e1e] text-white"
-                  disabled={loading}
-                >
-                  Delete
-                </Button>
-              </div>
+              {/* {(item.releaseDate || item.completionDate) && (
+                <div className="text-[10px] text-gray-400 mt-1 space-y-0.5">
+                  {item.releaseDate && <div>Released: {item.releaseDate}</div>}
+                  {item.completionDate && <div>Completed: {item.completionDate}</div>}
+                </div>
+              )} */}
             </div>
           </CardContent>
         </Card>

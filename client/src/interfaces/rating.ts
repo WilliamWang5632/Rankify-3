@@ -6,4 +6,6 @@ export interface Rating {
   rating: number;
   review: string;
   createdAt?: string;
+  releaseDate?: string;
+  completionDate?: string;
 }

@@ -12,6 +12,8 @@ export interface IRating extends Document {
   picture?: string;
   rating: number;
   review: string;
+  releaseDate?: Date;
+  completionDate?: Date;
   createdAt?: Date;
 }
 

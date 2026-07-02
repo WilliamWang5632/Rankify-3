@@ -7,6 +7,8 @@ const blank: Omit<Rating, "id" | "collectionId"> = {
   picture: "",
   rating: 0,
   review: "",
+  releaseDate: "",
+  completionDate: "",
 };
 
 export interface Stats {
@@ -21,6 +23,20 @@ interface UseRatingProps {
   collectionId: string | null;
 }
 
+export type SortOption =
+  | "name"
+  | "name-desc"
+  | "rating"
+  | "rating-low"
+  | "newest"
+  | "oldest"
+  | "release-newest"
+  | "release-oldest"
+  | "completion-newest"
+  | "completion-oldest";
+
+export type ViewMode = "grid" | "list";
+
 export default function useRating({ collectionId }: UseRatingProps) {
   const API_URL = import.meta.env.VITE_API_URL + "/ratings";
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -32,10 +48,9 @@ export default function useRating({ collectionId }: UseRatingProps) {
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [sortBy, setSortBy] = useState<
-    "name" | "name-desc" | "rating" | "rating-low" | "newest" | "oldest"
-  >("newest");
-  const [isFormExpanded, setIsFormExpanded] = useState(false);
+  const [sortBy, setSortBy] = useState<SortOption>("newest");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
 
   /* ------------------------------------------------------------------
      Utility functions
@@ -55,17 +70,6 @@ export default function useRating({ collectionId }: UseRatingProps) {
     setTimeout(() => setError(""), 5000);
   };
 
-  const convertFileToDataURL = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
-
-  console.log(convertFileToDataURL.toString());
-
   // Calculate statistics
   const getStats = (): Stats => {
     if (items.length === 0) {
@@ -83,7 +87,6 @@ export default function useRating({ collectionId }: UseRatingProps) {
     const meanRating =
       ratings.reduce((sum, rating) => sum + rating, 0) / totalRatings;
 
-    // Calculate median
     const sortedRatings = [...ratings].sort((a, b) => a - b);
     const medianRating =
       sortedRatings.length % 2 === 0
@@ -185,7 +188,6 @@ export default function useRating({ collectionId }: UseRatingProps) {
     }
   };
 
-  // Fetch ratings when collection changes
   useEffect(() => {
     void fetchAll();
   }, [collectionId]);
@@ -213,6 +215,14 @@ export default function useRating({ collectionId }: UseRatingProps) {
           return (b.createdAt || b.id).localeCompare(a.createdAt || a.id);
         case "oldest":
           return (a.createdAt || a.id).localeCompare(b.createdAt || b.id);
+        case "release-newest":
+          return (b.releaseDate || "").localeCompare(a.releaseDate || "");
+        case "release-oldest":
+          return (a.releaseDate || "").localeCompare(b.releaseDate || "");
+        case "completion-newest":
+          return (b.completionDate || "").localeCompare(a.completionDate || "");
+        case "completion-oldest":
+          return (a.completionDate || "").localeCompare(b.completionDate || "");
         default:
           return 0;
       }
@@ -242,13 +252,11 @@ export default function useRating({ collectionId }: UseRatingProps) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith("image/")) {
       showError("Please select a valid image file");
       return;
     }
 
-    // Validate file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
       showError("Image size must be less than 5MB");
       return;
@@ -277,14 +285,12 @@ export default function useRating({ collectionId }: UseRatingProps) {
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
 
-          // Set max dimensions
           const MAX_WIDTH = 800;
           const MAX_HEIGHT = 800;
 
           let width = img.width;
           let height = img.height;
 
-          // Calculate new dimensions while maintaining aspect ratio
           if (width > height) {
             if (width > MAX_WIDTH) {
               height *= MAX_WIDTH / width;
@@ -300,10 +306,8 @@ export default function useRating({ collectionId }: UseRatingProps) {
           canvas.width = width;
           canvas.height = height;
 
-          // Draw and compress
           ctx?.drawImage(img, 0, 0, width, height);
 
-          // Convert to compressed dataURL (0.8 quality for JPEG)
           const compressedDataURL = canvas.toDataURL("image/jpeg", 0.8);
           resolve(compressedDataURL);
         };
@@ -353,6 +357,7 @@ export default function useRating({ collectionId }: UseRatingProps) {
       await fetchAll();
       setForm(blank);
       setEditingId(null);
+      setIsModalOpen(false);
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -372,6 +377,8 @@ export default function useRating({ collectionId }: UseRatingProps) {
       picture: item.picture,
       rating: item.rating,
       review: item.review,
+      releaseDate: toDateInputValue(item.releaseDate),
+      completionDate: toDateInputValue(item.completionDate),
     });
     setEditingId(item.id);
     clearMessages();
@@ -404,6 +411,29 @@ export default function useRating({ collectionId }: UseRatingProps) {
     clearMessages();
   };
 
+  /* ------------------------------------------------------------------
+     Modal helpers
+  -------------------------------------------------------------------*/
+  const openAddModal = () => {
+    cancelEdit();
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (item: Rating) => {
+    handleEdit(item);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    cancelEdit();
+    setIsModalOpen(false);
+  };
+
+  const toDateInputValue = (value?: string): string => {
+    if (!value) return "";
+    return value.slice(0, 10); // "2026-02-19T00:00:00.000Z" -> "2026-02-19"
+  };
+
   return {
     // State
     items,
@@ -416,6 +446,8 @@ export default function useRating({ collectionId }: UseRatingProps) {
     searchTerm,
     sortBy,
     filteredAndSortedItems,
+    isModalOpen,
+    viewMode,
 
     // Functions
     handleChange,
@@ -431,7 +463,10 @@ export default function useRating({ collectionId }: UseRatingProps) {
     fileInputRef,
     blank,
     clearMessages,
-    isFormExpanded,
-    setIsFormExpanded,
+    setIsModalOpen,
+    setViewMode,
+    openAddModal,
+    openEditModal,
+    closeModal,
   };
 }
