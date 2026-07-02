@@ -21,29 +21,33 @@ export default function RatingsList({
           onClick={() => !loading && openEditModal(item)}
           className="group relative hover:bg-gray-750 transition-colors duration-200 bg-gray-800 border-gray-700 cursor-pointer"
         >
-          <CardContent className="p-2 flex items-center gap-3">
+          <CardContent className="p-2 pr-10 flex items-center gap-2">
             <img
               src={item.picture}
               alt={item.name}
-              className="w-14 h-14 object-cover rounded-md shrink-0 aspect-square"
+              className="w-20 h-20 ml-60 mr-10 object-cover rounded-md shrink-0 aspect-square"
               onError={(e) => {
                 e.currentTarget.src = `https://images.unsplash.com/photo-1489599953329-c414b2b12d83?w=400&h=300&fit=crop&t=${item.id}`;
               }}
             />
 
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-bold text-white truncate">{item.name}</h3>
-              <p className="text-xs text-gray-400 line-clamp-1">{item.review}</p>
-            </div>
+            <h3 className="text-sm font-bold text-white truncate w-80 shrink-0">
+              {item.name}
+            </h3>
 
-            {/* <div className="hidden sm:flex flex-col text-[11px] text-gray-400 w-32 shrink-0">
-              {item.releaseDate && <span>Released: {item.releaseDate}</span>}
-              {item.completionDate && <span>Completed: {item.completionDate}</span>}
-            </div> */}
+            <span className="text-base text-gray-300 mr-20 font-semibold shrink-0 w-12">
+              {item.releaseDate ? `(${item.releaseDate.slice(0, 4)})` : ""}
+            </span>
 
-            <div className="w-32 shrink-0">
+            {/* <div className="flex-1" /> */}
+
+            <div className="w-64 mr-10 mt-6 shrink-0 self-center">
               <RatingProgressBar rating={item.rating} />
             </div>
+
+            <span className="text-base text-gray-300 shrink-0 w-56">
+              {item.completionDate ? `Completed: ${item.completionDate.slice(0, 10)}` : ""}
+            </span>
 
             <button
                 onClick={(e) => {
