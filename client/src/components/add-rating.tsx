@@ -1,12 +1,12 @@
-import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { X } from "lucide-react";
 import type { Rating } from "../interfaces/rating";
 import React from "react";
 
 interface AddRatingProps {
+  isOpen: boolean;
   loading: boolean;
   editing: boolean;
   form: Omit<Rating, "id" | "collectionId">;
@@ -17,13 +17,11 @@ interface AddRatingProps {
   handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
   setForm: React.Dispatch<React.SetStateAction<Omit<Rating, "id" | "collectionId">>>;
   handleSubmit: () => Promise<void>;
-  cancelEdit: () => void;
-  clearMessages: () => void;
-  isFormExpanded: boolean;
-  setIsFormExpanded: React.Dispatch<React.SetStateAction<boolean>>;
+  closeModal: () => void;
 }
 
 export default function AddRating({
+  isOpen,
   loading,
   editing,
   form,
@@ -32,38 +30,39 @@ export default function AddRating({
   handleImageUpload,
   setForm,
   handleSubmit,
-  cancelEdit,
-  isFormExpanded,
-  setIsFormExpanded,
+  closeModal,
 }: AddRatingProps) {
+  if (!isOpen) return null;
+
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     setForm({ ...form, rating: value });
   };
 
   return (
-    <div className={`${isFormExpanded ? "lg:col-span-2" : "lg:col-span-1"}`}>
-      <Card className="bg-gray-800 border-gray-700 sticky top-6">
-        <CardContent className="p-4">
-          <div className="flex justify-between">
-            <h2 className="text-xl font-bold mb-2 text-white">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4"
+      onClick={closeModal}
+    >
+      <div
+        className="w-full max-w-xl max-h-[90vh] overflow-y-auto bg-gray-800 border border-gray-700 rounded-xl shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold text-white">
               {editing ? "Edit Rating" : "Add New Rating"}
             </h2>
-            <div>
-              <button
-                onClick={() => setIsFormExpanded(!isFormExpanded)}
-                className="border bg-gray-600 hover:bg-gray-700 rounded-full p-1 transition-colors duration-200"
-                aria-label={isFormExpanded ? "Collapse form" : "Expand form"}
-              >
-                {isFormExpanded ? (
-                  <ChevronLeft className="h-6 w-6 font-bold text-white" />
-                ) : (
-                  <ChevronRight className="h-6 w-6 font-bold text-white" />
-                )}
-              </button>
-            </div>
+            <button
+              onClick={closeModal}
+              className="border bg-gray-600 hover:bg-gray-700 rounded-full p-1.5 transition-colors duration-200"
+              aria-label="Close"
+            >
+              <X className="h-5 w-5 text-white" />
+            </button>
           </div>
-          <div className="space-y-2">
+
+          <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 Name
@@ -74,7 +73,7 @@ export default function AddRating({
                 value={form.name}
                 onChange={handleChange}
                 required
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 h-11"
               />
             </div>
 
@@ -88,14 +87,14 @@ export default function AddRating({
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  className="block w-full text-sm text-gray-400 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-gray-700 file:text-white hover:file:bg-gray-600"
+                  className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-gray-700 file:text-white hover:file:bg-gray-600"
                 />
                 {form.picture && (
-                  <div className="relative bg-gray-700 rounded-lg overflow-hidden w-full h-48">
+                  <div className="relative bg-gray-700 rounded-lg overflow-hidden w-full aspect-square max-w-[280px] mx-auto">
                     <img
                       src={form.picture}
                       alt="Preview"
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-cover"
                     />
                     <button
                       type="button"
@@ -105,7 +104,7 @@ export default function AddRating({
                           fileInputRef.current.value = "";
                         }
                       }}
-                      className="absolute top-2 right-2 bg-[#d62d2d] hover:bg-[#d62d2d] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                      className="absolute top-2 right-2 bg-[#d62d2d] hover:bg-[#a61e1e] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
                     >
                       ×
                     </button>
@@ -121,20 +120,45 @@ export default function AddRating({
                   {form.rating || 0}/10
                 </span>
               </label>
-              <div className="space-y-2">
-                <input
-                  type="range"
-                  min="0"
-                  max="10"
-                  step="0.1"
-                  value={form.rating || 0}
-                  onChange={handleSliderChange}
-                  className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb"
-                  style={{
-                    background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${
-                      (form.rating / 10) * 100
-                    }%, #374151 ${(form.rating / 10) * 100}%, #374151 100%)`,
-                  }}
+              <input
+                type="range"
+                min="0"
+                max="10"
+                step="0.1"
+                value={form.rating || 0}
+                onChange={handleSliderChange}
+                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb"
+                style={{
+                  background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${
+                    (form.rating / 10) * 100
+                  }%, #374151 ${(form.rating / 10) * 100}%, #374151 100%)`,
+                }}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Release Date <span className="text-gray-500">(optional)</span>
+                </label>
+                <Input
+                  type="date"
+                  name="releaseDate"
+                  value={form.releaseDate || ""}
+                  onChange={handleChange}
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 h-11"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Completion Date <span className="text-gray-500">(optional)</span>
+                </label>
+                <Input
+                  type="date"
+                  name="completionDate"
+                  value={form.completionDate || ""}
+                  onChange={handleChange}
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 h-11"
                 />
               </div>
             </div>
@@ -149,7 +173,7 @@ export default function AddRating({
                 value={form.review}
                 onChange={handleChange}
                 required
-                className="min-h-[18vh] bg-gray-700 border-gray-600 text-xs text-white placeholder-gray-400 resize-none"
+                className="min-h-[22vh] bg-gray-700 border-gray-600 text-sm text-white placeholder-gray-400 resize-none"
               />
             </div>
 
@@ -157,7 +181,7 @@ export default function AddRating({
               <Button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
+                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white h-11"
               >
                 {loading
                   ? "Saving..."
@@ -166,18 +190,16 @@ export default function AddRating({
                   : "Create Rating"}
               </Button>
 
-              {editing && (
-                <Button
-                  onClick={cancelEdit}
-                  className="bg-gray-600 hover:bg-gray-700 text-white"
-                >
-                  Cancel
-                </Button>
-              )}
+              <Button
+                onClick={closeModal}
+                className="bg-gray-600 hover:bg-gray-700 text-white h-11"
+              >
+                Cancel
+              </Button>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
