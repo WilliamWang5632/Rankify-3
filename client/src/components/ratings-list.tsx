@@ -36,10 +36,10 @@ export default function RatingsList({
               <p className="text-xs text-gray-400 line-clamp-1">{item.review}</p>
             </div>
 
-            <div className="hidden sm:flex flex-col text-[11px] text-gray-400 w-32 shrink-0">
+            {/* <div className="hidden sm:flex flex-col text-[11px] text-gray-400 w-32 shrink-0">
               {item.releaseDate && <span>Released: {item.releaseDate}</span>}
               {item.completionDate && <span>Completed: {item.completionDate}</span>}
-            </div>
+            </div> */}
 
             <div className="w-32 shrink-0">
               <RatingProgressBar rating={item.rating} />

@@ -377,8 +377,8 @@ export default function useRating({ collectionId }: UseRatingProps) {
       picture: item.picture,
       rating: item.rating,
       review: item.review,
-      releaseDate: item.releaseDate || "",
-      completionDate: item.completionDate || "",
+      releaseDate: toDateInputValue(item.releaseDate),
+      completionDate: toDateInputValue(item.completionDate),
     });
     setEditingId(item.id);
     clearMessages();
@@ -427,6 +427,11 @@ export default function useRating({ collectionId }: UseRatingProps) {
   const closeModal = () => {
     cancelEdit();
     setIsModalOpen(false);
+  };
+
+  const toDateInputValue = (value?: string): string => {
+    if (!value) return "";
+    return value.slice(0, 10); // "2026-02-19T00:00:00.000Z" -> "2026-02-19"
   };
 
   return {

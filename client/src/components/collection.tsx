@@ -13,7 +13,7 @@ interface CollectionProps {
 
 export default function Collection({ ratings }: CollectionProps) {
   const {
-    getStats,
+    //getStats,
     searchTerm,
     setSearchTerm,
     sortBy,
@@ -36,7 +36,7 @@ export default function Collection({ ratings }: CollectionProps) {
     setViewMode,
   } = ratings;
 
-  const stats = getStats();
+  //const stats = getStats();
 
   return (
     <div className="w-full">

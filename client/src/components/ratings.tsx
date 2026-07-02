@@ -54,12 +54,12 @@ export default function Ratings({
                 <RatingProgressBar rating={item.rating} />
               </div>
 
-              {(item.releaseDate || item.completionDate) && (
+              {/* {(item.releaseDate || item.completionDate) && (
                 <div className="text-[10px] text-gray-400 mt-1 space-y-0.5">
                   {item.releaseDate && <div>Released: {item.releaseDate}</div>}
                   {item.completionDate && <div>Completed: {item.completionDate}</div>}
                 </div>
-              )}
+              )} */}
             </div>
           </CardContent>
         </Card>
