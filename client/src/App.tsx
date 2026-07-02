@@ -16,8 +16,8 @@ export default function App() {
   const success = collections.success || ratings.success;
 
   return (
-    <div className="min-h-screen w-[100vw] bg-gray-900 text-white">
-      <div className="max-w-full mx-auto px-8 py-2">
+    <div className="min-h-screen w-full bg-gray-900 text-white min-w-[100vw]">
+      <div className="min-w-full max-w-full mx-auto px-8 py-2">
         {/* Header */}
         <Header />
 
@@ -39,7 +39,7 @@ export default function App() {
         {collections.currentCollection ? (
           <Collection ratings={ratings} />
         ) : (
-          <div className="text-center py-12">
+          <div className="text-center py-12 min-w-full">
             <p className="text-gray-400 text-lg">
               Select or create a collection to get started
             </p>

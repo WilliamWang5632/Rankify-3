@@ -16,7 +16,7 @@ export default function Empty({
   return (
     <>
       {!loading && filteredAndSortedItems.length === 0 && (
-        <Card className="text-center py-12 bg-gray-800 border-gray-700">
+        <Card className="text-center py-12 bg-gray-800 border-gray-700 min-w-full w-full">
           <CardContent>
             {/* <div className="text-6xl mb-4">🎬</div> */}
             <h3 className="text-xl font-semibold mb-2 text-white">

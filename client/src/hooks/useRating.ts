@@ -64,6 +64,8 @@ export default function useRating({ collectionId }: UseRatingProps) {
     });
   };
 
+  console.log(convertFileToDataURL.toString());
+
   // Calculate statistics
   const getStats = (): Stats => {
     if (items.length === 0) {
