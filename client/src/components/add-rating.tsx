@@ -90,7 +90,7 @@ export default function AddRating({
                   className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-muted file:text-foregroundhover:file:bg-secondary"
                 />
                 {form.picture && (
-                  <div className="relative bg-muted rounded-lg overflow-hidden w-full aspect-square max-w-[220px] sm:max-w-[280px] mx-auto">
+                  <div className="relative bg-muted rounded-lg overflow-hidden w-full aspect-square max-w-[180px] sm:max-w-[200px] mx-auto">
                     <img
                       src={form.picture}
                       alt="Preview"
