@@ -3,10 +3,15 @@ export default function RatingProgressBar({ rating }: { rating: number }) {
   const percentage = (validRating / 10) * 100;
   
   const getColor = () => {
+    if (validRating >= 9.5) return 'bg-emerald-500';
     if (validRating >= 9) return 'bg-green-500';
+    if (validRating >= 8.5) return 'bg-green-400';
     if (validRating >= 8) return 'bg-lime-500';
+    if (validRating >= 7.5) return 'bg-lime-300'; 
     if (validRating >= 7) return 'bg-yellow-500';
+    if (validRating >= 6.5) return 'bg-amber-400';
     if (validRating >= 6) return 'bg-amber-500';
+    if (validRating >= 5.5) return 'bg-orange-400';
     if (validRating >= 5) return 'bg-orange-500';
     return 'bg-red-500';
   };
