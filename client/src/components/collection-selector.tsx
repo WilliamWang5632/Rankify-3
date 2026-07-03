@@ -69,7 +69,7 @@ export default function CollectionSelector({
   return (
     <div className="mb-3">
       {/* Tab Bar */}
-      <div className="bg-gray-800 rounded-t-lg px-2 pt-2 flex items-end gap-1 overflow-x-auto">
+      <div className="bg-card rounded-t-lg px-2 pt-2 flex items-end gap-1 overflow-x-auto">
         {/* Collection Tabs */}
         {collections.map((collection) => (
           <div
@@ -82,15 +82,15 @@ export default function CollectionSelector({
               transition-all duration-200 min-w-[120px] max-w-[200px]
               ${
                 currentCollection?.id === collection.id
-                  ? "bg-gray-900 text-white border-t-2 border-indigo-500"
-                  : "bg-gray-700 text-gray-300 hover:bg-gray-650 hover:text-white"
+                  ? "bg-background text-foreground border-t-2 border-primary"
+                  : "bg-secondary text-muted-foreground hover:bg-accent hover:text-foreground"
               }
             `}
           >
             <span className="truncate flex-1 text-sm font-medium">
               {collection.name}
             </span>
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-muted-foreground">
               ({collection.ratingCount || 0})
             </span>
 
@@ -99,7 +99,7 @@ export default function CollectionSelector({
               <div className="flex items-center gap-0.5 ml-1">
                 <button
                   onClick={(e) => openEditForm(collection, e)}
-                  className="p-1 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
+                  className="p-1 bg-secondary hover:bg-accent rounded transition-colors"
                   title="Edit collection"
                   disabled={loading}
                 >
@@ -107,7 +107,7 @@ export default function CollectionSelector({
                 </button>
                 <button
                   onClick={(e) => handleDelete(collection.id, e)}
-                  className="p-1 bg-gray-700 hover:bg-red-600 rounded transition-colors"
+                  className="p-1 bg-secondary hover:bg-destructive rounded transition-colors"
                   title="Delete collection"
                   disabled={loading}
                 >
@@ -121,7 +121,7 @@ export default function CollectionSelector({
         {/* New Tab Button */}
         <button
           onClick={() => setShowCreateForm(!showCreateForm)}
-          className="flex items-center gap-2 px-3 py-2 rounded-full bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white transition-colors"
+          className="flex items-center gap-2 px-3 py-2 rounded-full bg-card hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
           disabled={loading}
           title="Create new collection"
         >
@@ -132,9 +132,9 @@ export default function CollectionSelector({
 
       {/* Tab Content Area - Create Form */}
       {showCreateForm && (
-      <div className="bg-gray-800 border-t-2 border-indigo-500 rounded-b-lg p-4">
+      <div className="bg-card border-t-2 border-primary rounded-b-lg p-4">
           <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-300 whitespace-nowrap">New Collection:</span>
+            <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">New Collection:</span>
             <input
               type="text"
               placeholder="Collection name (e.g., Movies, Games)"
@@ -142,11 +142,11 @@ export default function CollectionSelector({
               onChange={(e) => setNewCollectionName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleCreate()}
               autoFocus
-              className="flex-1 px-3 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:ring-2 focus:ring-ring focus:border-transparent"
             />
             <button
               onClick={handleCreate}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-colors text-white text-sm whitespace-nowrap"
+              className="px-4 py-2 bg-primary hover:bg-primary/90 rounded-lg font-medium transition-colors text-primary-foreground text-sm whitespace-nowrap"
               disabled={loading || !newCollectionName.trim()}
             >
               Create
@@ -157,7 +157,7 @@ export default function CollectionSelector({
                 setNewCollectionName("");
                 setNewCollectionDesc("");
               }}
-              className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-gray-300"
+              className="p-2 hover:bg-secondary rounded-lg transition-colors text-muted-foreground"
               title="Cancel"
             >
               <X className="w-4 h-4" />
@@ -168,9 +168,9 @@ export default function CollectionSelector({
 
       {/* Tab Content Area - Edit Form */}
       {editingId && (
-       <div className="bg-gray-800 border-t-2 border-indigo-500 rounded-b-lg p-4">
+       <div className="bg-card border-t-2 border-primary rounded-b-lg p-4">
           <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-300 whitespace-nowrap">Edit Collection:</span>
+            <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">Edit Collection:</span>
             <input
               type="text"
               placeholder="Collection name"
@@ -178,11 +178,11 @@ export default function CollectionSelector({
               onChange={(e) => setNewCollectionName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleUpdate()}
               autoFocus
-              className="flex-1 px-3 py-2 bg-gray-900 border border-gray-600 rounded-lg text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:ring-2 focus:ring-ring focus:border-transparent"
             />
             <button
               onClick={handleUpdate}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-medium transition-colors text-white text-sm whitespace-nowrap"
+              className="px-4 py-2 bg-primary hover:bg-primary/90 rounded-lg font-medium transition-colors text-primary-foreground text-sm whitespace-nowrap"
               disabled={loading || !newCollectionName.trim()}
             >
               Save
@@ -193,7 +193,7 @@ export default function CollectionSelector({
                 setNewCollectionName("");
                 setNewCollectionDesc("");
               }}
-              className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-gray-300"
+              className="p-2 hover:bg-secondary rounded-lg transition-colors text-muted-foreground"
               title="Cancel"
             >
               <X className="w-4 h-4" />
@@ -204,7 +204,7 @@ export default function CollectionSelector({
 
       {/* No form showing - just tab bar bottom border */}
       {!showCreateForm && !editingId && (
-        <div className="bg-gray-900 h-1"></div>
+        <div className="bg-background h-1"></div>
       )}
     </div>
   );

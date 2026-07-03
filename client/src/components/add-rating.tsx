@@ -45,26 +45,26 @@ export default function AddRating({
       onClick={closeModal}
     >
       <div
-        className="w-full max-w-xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-gray-800 border border-gray-700 rounded-xl shadow-xl"
+        className="w-full max-w-xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-card border border-border rounded-xl shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-4 sm:p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground">
               {editing ? "Edit Rating" : "Add New Rating"}
             </h2>
             <button
               onClick={closeModal}
-              className="border bg-gray-600 hover:bg-gray-700 rounded-full p-1.5 transition-colors duration-200 shrink-0"
+              className="border bg-secondary hover:bg-muted rounded-full p-1.5 transition-colors duration-200 shrink-0"
               aria-label="Close"
             >
-              <X className="h-5 w-5 text-white" />
+              <X className="h-5 w-5 text-foreground" />
             </button>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-muted-foreground mb-2">
                 Name
               </label>
               <Input
@@ -73,12 +73,12 @@ export default function AddRating({
                 value={form.name}
                 onChange={handleChange}
                 required
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 h-11"
+                className="bg-muted border-border text-foregroundplaceholder-muted-foreground h-11"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-muted-foreground mb-2">
                 Image
               </label>
               <div className="space-y-2">
@@ -87,10 +87,10 @@ export default function AddRating({
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-gray-700 file:text-white hover:file:bg-gray-600"
+                  className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-muted file:text-foregroundhover:file:bg-secondary"
                 />
                 {form.picture && (
-                  <div className="relative bg-gray-700 rounded-lg overflow-hidden w-full aspect-square max-w-[220px] sm:max-w-[280px] mx-auto">
+                  <div className="relative bg-muted rounded-lg overflow-hidden w-full aspect-square max-w-[220px] sm:max-w-[280px] mx-auto">
                     <img
                       src={form.picture}
                       alt="Preview"
@@ -104,7 +104,7 @@ export default function AddRating({
                           fileInputRef.current.value = "";
                         }
                       }}
-                      className="absolute top-2 right-2 bg-[#d62d2d] hover:bg-[#a61e1e] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
+                      className="absolute top-2 right-2 bg-[bg-destructive] hover:bg-[hover:bg-destructive/90] text-foregroundrounded-full w-6 h-6 flex items-center justify-center text-xs"
                     >
                       ×
                     </button>
@@ -114,9 +114,9 @@ export default function AddRating({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-muted-foreground mb-2">
                 Rating:{" "}
-                <span className="text-indigo-400 font-bold">
+                <span className="text-primary font-bold">
                   {form.rating || 0}/10
                 </span>
               </label>
@@ -127,18 +127,18 @@ export default function AddRating({
                 step="0.1"
                 value={form.rating || 0}
                 onChange={handleSliderChange}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb"
+                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer slider-thumb"
                 style={{
-                  background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${
+                  background: `linear-gradient(to right, hsl(var(--primary)) 0%, hsl(var(--primary)) ${
                     (form.rating / 10) * 100
-                  }%, #374151 ${(form.rating / 10) * 100}%, #374151 100%)`,
+                  }%, hsl(var(--muted)) ${(form.rating / 10) * 100}%, hsl(var(--muted)) 100%)`,
                 }}
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-muted-foreground mb-2">
                   Release Date <span className="text-gray-500">(optional)</span>
                 </label>
                 <Input
@@ -146,11 +146,11 @@ export default function AddRating({
                   name="releaseDate"
                   value={form.releaseDate || ""}
                   onChange={handleChange}
-                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 h-11"
+                  className="bg-muted border-border text-foregroundplaceholder-muted-foreground h-11"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-muted-foreground mb-2">
                   Completion Date <span className="text-gray-500">(optional)</span>
                 </label>
                 <Input
@@ -158,13 +158,13 @@ export default function AddRating({
                   name="completionDate"
                   value={form.completionDate || ""}
                   onChange={handleChange}
-                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 h-11"
+                  className="bg-muted border-border text-foregroundplaceholder-muted-foreground h-11"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-muted-foreground mb-2">
                 Review
               </label>
               <Textarea
@@ -173,7 +173,7 @@ export default function AddRating({
                 value={form.review}
                 onChange={handleChange}
                 required
-                className="min-h-[18vh] sm:min-h-[22vh] bg-gray-700 border-gray-600 text-sm text-white placeholder-gray-400 resize-none"
+                className="min-h-[18vh] sm:min-h-[22vh] bg-muted border-border text-sm text-foregroundplaceholder-muted-foreground resize-none"
               />
             </div>
 
@@ -181,7 +181,7 @@ export default function AddRating({
               <Button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white h-11"
+                className="flex-1 bg-primary hover:bg-primary/90 text-foregroundh-11"
               >
                 {loading
                   ? "Saving..."
@@ -192,7 +192,7 @@ export default function AddRating({
 
               <Button
                 onClick={closeModal}
-                className="bg-gray-600 hover:bg-gray-700 text-white h-11"
+                className="bg-secondary hover:bg-muted text-foregroundh-11"
               >
                 Cancel
               </Button>

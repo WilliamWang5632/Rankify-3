@@ -19,7 +19,7 @@ export default function SearchSort({
   setViewMode: React.Dispatch<React.SetStateAction<ViewMode>>;
 }) {
   return (
-    <Card className="mb-3 bg-gray-800 border-gray-700 w-full">
+    <Card className="mb-3 bg-card border-border w-full">
       <CardContent className="p-2">
         <div className="flex flex-col md:flex-row gap-2 md:gap-3 items-stretch md:items-center">
           <div className="w-full md:flex-1">
@@ -27,16 +27,16 @@ export default function SearchSort({
               placeholder="Search ratings..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 w-full"
+              className="bg-muted border-border text-foreground placeholder-muted-foreground w-full"
             />
           </div>
 
           <div className="flex items-center gap-2 justify-between md:justify-start">
-            <span className="text-sm font-medium text-gray-300 shrink-0">Sort by:</span>
+            <span className="text-sm font-medium text-muted-foreground shrink-0">Sort by:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="flex-1 md:flex-none px-2 md:px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white text-sm min-w-0"
+              className="flex-1 md:flex-none px-2 md:px-3 py-2 border border-border rounded-md bg-muted text-foreground text-sm min-w-0"
             >
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -50,10 +50,10 @@ export default function SearchSort({
               <option value="completion-oldest">Completion Date (Oldest)</option>
             </select>
 
-            <div className="flex items-center gap-1 bg-gray-700 rounded-md p-1 shrink-0">
+            <div className="flex items-center gap-1 bg-muted rounded-md p-1 shrink-0">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-1.5 rounded ${viewMode === "grid" ? "bg-indigo-600 text-white" : "text-gray-300 hover:bg-gray-600"}`}
+                className={`p-1.5 rounded ${viewMode === "grid" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent"}`}
                 aria-label="Grid view"
                 title="Grid view"
               >
@@ -61,7 +61,7 @@ export default function SearchSort({
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`p-1.5 rounded ${viewMode === "list" ? "bg-indigo-600 text-white" : "text-gray-300 hover:bg-gray-600"}`}
+                className={`p-1.5 rounded ${viewMode === "list" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent"}`}
                 aria-label="List view"
                 title="List view"
               >
