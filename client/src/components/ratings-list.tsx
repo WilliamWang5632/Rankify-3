@@ -21,33 +21,40 @@ export default function RatingsList({
           onClick={() => !loading && openEditModal(item)}
           className="group relative hover:bg-gray-750 transition-colors duration-200 bg-gray-800 border-gray-700 cursor-pointer"
         >
-          <CardContent className="p-2 pr-10 flex items-center gap-2">
+          <CardContent className="p-2 sm:pr-10 flex flex-wrap sm:flex-nowrap items-center gap-2">
             <img
               src={item.picture}
               alt={item.name}
-              className="w-20 h-20 ml-60 mr-10 object-cover rounded-md shrink-0 aspect-square"
+              className="w-14 h-14 sm:w-20 sm:h-20 sm:ml-60 sm:mr-10 object-cover rounded-md shrink-0 aspect-square"
               onError={(e) => {
                 e.currentTarget.src = `https://images.unsplash.com/photo-1489599953329-c414b2b12d83?w=400&h=300&fit=crop&t=${item.id}`;
               }}
             />
 
-            <h3 className="text-sm font-bold text-white truncate w-80 shrink-0">
-              {item.name}
-            </h3>
+            <div className="flex-1 min-w-0 sm:flex-none sm:w-80">
+              <h3 className="text-sm font-bold text-white truncate">
+                {item.name}
+              </h3>
+              {item.releaseDate && (
+                <span className="text-xs text-gray-400 sm:hidden">
+                  {item.releaseDate.slice(0, 4)}
+                </span>
+              )}
+            </div>
 
-            <span className="text-base text-gray-300 mr-20 font-semibold shrink-0 w-12">
+            <span className="hidden sm:inline text-base text-gray-300 mr-20 font-semibold shrink-0 w-12">
               {item.releaseDate ? `(${item.releaseDate.slice(0, 4)})` : ""}
             </span>
 
-            {/* <div className="flex-1" /> */}
-
-            <div className="w-64 mr-10 mt-6 shrink-0 self-center">
+            <div className="w-24 sm:w-64 sm:mr-10 sm:mt-6 shrink-0 self-center">
               <RatingProgressBar rating={item.rating} />
             </div>
 
-            <span className="text-base text-gray-300 shrink-0 w-56">
-              {item.completionDate ? `Completed: ${item.completionDate.slice(0, 10)}` : ""}
-            </span>
+            {item.completionDate && (
+              <span className="w-full sm:w-56 shrink-0 text-xs sm:text-base text-gray-300 pl-16 sm:pl-0">
+                Completed: {item.completionDate.slice(0, 10)}
+              </span>
+            )}
 
             <button
                 onClick={(e) => {

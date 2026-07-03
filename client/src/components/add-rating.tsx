@@ -41,21 +41,21 @@ export default function AddRating({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-2 sm:p-4"
       onClick={closeModal}
     >
       <div
-        className="w-full max-w-xl max-h-[90vh] overflow-y-auto bg-gray-800 border border-gray-700 rounded-xl shadow-xl"
+        className="w-full max-w-xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-gray-800 border border-gray-700 rounded-xl shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
               {editing ? "Edit Rating" : "Add New Rating"}
             </h2>
             <button
               onClick={closeModal}
-              className="border bg-gray-600 hover:bg-gray-700 rounded-full p-1.5 transition-colors duration-200"
+              className="border bg-gray-600 hover:bg-gray-700 rounded-full p-1.5 transition-colors duration-200 shrink-0"
               aria-label="Close"
             >
               <X className="h-5 w-5 text-white" />
@@ -90,7 +90,7 @@ export default function AddRating({
                   className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-gray-700 file:text-white hover:file:bg-gray-600"
                 />
                 {form.picture && (
-                  <div className="relative bg-gray-700 rounded-lg overflow-hidden w-full aspect-square max-w-[280px] mx-auto">
+                  <div className="relative bg-gray-700 rounded-lg overflow-hidden w-full aspect-square max-w-[220px] sm:max-w-[280px] mx-auto">
                     <img
                       src={form.picture}
                       alt="Preview"
@@ -136,7 +136,7 @@ export default function AddRating({
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Release Date <span className="text-gray-500">(optional)</span>
@@ -173,7 +173,7 @@ export default function AddRating({
                 value={form.review}
                 onChange={handleChange}
                 required
-                className="min-h-[22vh] bg-gray-700 border-gray-600 text-sm text-white placeholder-gray-400 resize-none"
+                className="min-h-[18vh] sm:min-h-[22vh] bg-gray-700 border-gray-600 text-sm text-white placeholder-gray-400 resize-none"
               />
             </div>
 

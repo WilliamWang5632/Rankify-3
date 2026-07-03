@@ -21,21 +21,22 @@ export default function SearchSort({
   return (
     <Card className="mb-3 bg-gray-800 border-gray-700 w-full">
       <CardContent className="p-2">
-        <div className="flex flex-col md:flex-row gap-3 items-center">
-          <div className="flex-1 w-full">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-3 items-stretch md:items-center">
+          <div className="w-full md:flex-1">
             <Input
               placeholder="Search ratings..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 w-full"
             />
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-300">Sort by:</span>
+
+          <div className="flex items-center gap-2 justify-between md:justify-start">
+            <span className="text-sm font-medium text-gray-300 shrink-0">Sort by:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+              className="flex-1 md:flex-none px-2 md:px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white text-sm min-w-0"
             >
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -48,25 +49,25 @@ export default function SearchSort({
               <option value="completion-newest">Completion Date (Newest)</option>
               <option value="completion-oldest">Completion Date (Oldest)</option>
             </select>
-          </div>
 
-          <div className="flex items-center gap-1 bg-gray-700 rounded-md p-1">
-            <button
-              onClick={() => setViewMode("grid")}
-              className={`p-1.5 rounded ${viewMode === "grid" ? "bg-indigo-600 text-white" : "text-gray-300 hover:bg-gray-600"}`}
-              aria-label="Grid view"
-              title="Grid view"
-            >
-              <LayoutGrid className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => setViewMode("list")}
-              className={`p-1.5 rounded ${viewMode === "list" ? "bg-indigo-600 text-white" : "text-gray-300 hover:bg-gray-600"}`}
-              aria-label="List view"
-              title="List view"
-            >
-              <List className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-1 bg-gray-700 rounded-md p-1 shrink-0">
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`p-1.5 rounded ${viewMode === "grid" ? "bg-indigo-600 text-white" : "text-gray-300 hover:bg-gray-600"}`}
+                aria-label="Grid view"
+                title="Grid view"
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                className={`p-1.5 rounded ${viewMode === "list" ? "bg-indigo-600 text-white" : "text-gray-300 hover:bg-gray-600"}`}
+                aria-label="List view"
+                title="List view"
+              >
+                <List className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </CardContent>

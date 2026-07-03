@@ -70,6 +70,11 @@ export default function useRating({ collectionId }: UseRatingProps) {
     setTimeout(() => setError(""), 5000);
   };
 
+  const toDateInputValue = (value?: string): string => {
+    if (!value) return "";
+    return value.slice(0, 10); // "2026-02-19T00:00:00.000Z" -> "2026-02-19"
+  };
+
   // Calculate statistics
   const getStats = (): Stats => {
     if (items.length === 0) {
@@ -427,11 +432,6 @@ export default function useRating({ collectionId }: UseRatingProps) {
   const closeModal = () => {
     cancelEdit();
     setIsModalOpen(false);
-  };
-
-  const toDateInputValue = (value?: string): string => {
-    if (!value) return "";
-    return value.slice(0, 10); // "2026-02-19T00:00:00.000Z" -> "2026-02-19"
   };
 
   return {
