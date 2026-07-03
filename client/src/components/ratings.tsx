@@ -14,7 +14,7 @@ export default function Ratings({
   handleDelete: (id: string) => void;
 }) {
   return (
-    <div className="grid gap-3 min-w-full grid-cols-2 xs:grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10">
+    <div className="grid gap-3 min-w-full grid-cols-2 xs:grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
       {filteredAndSortedItems.map((item: Rating) => (
         <Card
           key={item.id}
