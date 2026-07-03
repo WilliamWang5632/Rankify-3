@@ -60,11 +60,11 @@ export default function RatingsList({
                 {item.releaseDate ? `(${item.releaseDate.slice(0, 4)})` : ""}
               </span>
 
-              <div className="w-24 sm:w-full shrink-0 self-center sm:mt-6">
+              <div className="w-16 sm:w-full shrink-0 self-center mt-6 xs:mt-10">
                 <RatingProgressBar rating={item.rating} />
               </div>
 
-              <span className="w-full sm:w-auto shrink-0 text-xs sm:text-base text-muted-foreground pl-16 sm:pl-0">
+              <span className="w-full sm:w-auto shrink-0 text-xs sm:text-base text-muted-foreground pl-10 sm:pl-0">
                 {item.completionDate
                   ? `Completed: ${item.completionDate.slice(0, 10)}`
                   : ""}

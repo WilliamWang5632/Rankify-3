@@ -8,7 +8,7 @@ export default function RatingProgressBar({ rating }: { rating: number }) {
     if (validRating >= 8.5) return 'bg-green-400';
     if (validRating >= 8) return 'bg-lime-500';
     if (validRating >= 7.5) return 'bg-lime-300'; 
-    if (validRating >= 7) return 'bg-yellow-500';
+    if (validRating >= 7) return 'bg-yellow-300';
     if (validRating >= 6.5) return 'bg-amber-400';
     if (validRating >= 6) return 'bg-amber-500';
     if (validRating >= 5.5) return 'bg-orange-400';
