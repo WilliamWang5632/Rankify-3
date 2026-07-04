@@ -1,6 +1,6 @@
 import { Card, CardContent } from "./ui/card"
 import { Input } from "./ui/input"
-import { LayoutGrid, List } from "lucide-react"
+import { LayoutGrid, List, LayoutList } from "lucide-react"
 import type { SortOption, ViewMode } from "../hooks/useRating"
 
 export default function SearchSort({
@@ -66,6 +66,14 @@ export default function SearchSort({
                 title="List view"
               >
                 <List className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode("tier")}
+                className={`p-1.5 rounded ${viewMode === "tier" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent"}`}
+                aria-label="Tier list view"
+                title="Tier list view"
+              >
+                <LayoutList className="w-4 h-4" />
               </button>
             </div>
           </div>

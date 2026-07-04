@@ -1,9 +1,9 @@
 import AddRating from "./add-rating";
-// import Stats from "./stats";
 import SearchSort from "./search-sort";
 import Empty from "./empty";
 import Ratings from "./ratings";
 import RatingsList from "./ratings-list";
+import TierList from "./tier-list";
 import Loading from "./loading";
 import { Plus } from "lucide-react";
 
@@ -13,7 +13,6 @@ interface CollectionProps {
 
 export default function Collection({ ratings }: CollectionProps) {
   const {
-    //getStats,
     searchTerm,
     setSearchTerm,
     sortBy,
@@ -36,8 +35,6 @@ export default function Collection({ ratings }: CollectionProps) {
     setViewMode,
   } = ratings;
 
-  //const stats = getStats();
-
   return (
     <div className="w-full">
       <div className="flex justify-between items-center mb-3">
@@ -50,8 +47,6 @@ export default function Collection({ ratings }: CollectionProps) {
           setViewMode={setViewMode}
         />
       </div>
-
-      {/* <Stats stats={stats} /> */}
 
       {loading && <Loading loading={loading} />}
 
@@ -70,12 +65,17 @@ export default function Collection({ ratings }: CollectionProps) {
             loading={loading}
             handleDelete={handleDelete}
           />
-        ) : (
+        ) : viewMode === "list" ? (
           <RatingsList
             filteredAndSortedItems={filteredAndSortedItems}
             openEditModal={openEditModal}
             loading={loading}
             handleDelete={handleDelete}
+          />
+        ) : (
+          <TierList
+            filteredAndSortedItems={filteredAndSortedItems}
+            openEditModal={openEditModal}
           />
         ))}
 

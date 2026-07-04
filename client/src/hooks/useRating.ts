@@ -35,7 +35,7 @@ export type SortOption =
   | "completion-newest"
   | "completion-oldest";
 
-export type ViewMode = "grid" | "list";
+export type ViewMode = "grid" | "list" | "tier";
 
 export default function useRating({ collectionId }: UseRatingProps) {
   const API_URL = import.meta.env.VITE_API_URL + "/ratings";
