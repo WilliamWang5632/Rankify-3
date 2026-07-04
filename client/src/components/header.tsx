@@ -1,10 +1,22 @@
-export default function Header(){
-    return (
-        <div className="text-center mb-2 w-full">
-            <h1 className="text-2xl font-bold text-white mb-2">
-                RankBase
-            </h1>
-            {/* <p className="text-gray-400">Create, manage, and organize your ratings</p> */}
-        </div>
-    )
+import ThemeToggle from "./theme-toggle";
+import type { Theme } from "../hooks/useTheme";
+
+export default function Header({
+  theme,
+  setTheme,
+}: {
+  theme: Theme;
+  setTheme: (t: Theme) => void;
+}) {
+  return (
+    <div className="flex items-center justify-between mb-2 w-full">
+      <div className="flex-1" />
+      <h1 className="text-2xl font-bold text-foreground text-center flex-1">
+        RankBase
+      </h1>
+      <div className="flex-1 flex justify-end">
+        <ThemeToggle theme={theme} setTheme={setTheme} />
+      </div>
+    </div>
+  );
 }

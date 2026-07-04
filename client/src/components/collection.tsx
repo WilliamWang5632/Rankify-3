@@ -82,7 +82,7 @@ export default function Collection({ ratings }: CollectionProps) {
       {/* Floating Add Button */}
       <button
         onClick={openAddModal}
-        className="fixed bottom-6 right-6 z-40 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-colors"
+        className="fixed bottom-6 right-6 z-40 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-colors"
         aria-label="Add rating"
       >
         <Plus className="w-6 h-6" />

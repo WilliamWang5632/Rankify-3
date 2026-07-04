@@ -2,16 +2,415 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Slate — light theme */
+    --background: 0 0% 88%;
+    --foreground: 0 0% 15%;
+    --card: 0 0% 96%;
+    --card-foreground: 0 0% 15%;
+    --card-hover: 0 0% 91%;
+    --popover: 0 0% 96%;
+    --popover-foreground: 0 0% 15%;
+    --primary: 0 0% 25%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 82%;
+    --secondary-foreground: 0 0% 15%;
+    --muted: 0 0% 82%;
+    --muted-foreground: 0 0% 35%;
+    --accent: 0 0% 82%;
+    --accent-foreground: 0 0% 15%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 78%;
+    --input: 0 0% 78%;
+    --ring: 0 0% 25%;
+    --radius: 0.5rem;
+  }
+
+  /* Dark — unchanged */
+  .dark {
+    --background: 0 0% 11%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 20%;
+    --card-foreground: 0 0% 100%;
+    --card-hover: 0 0% 24%;
+    --popover: 0 0% 20%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 90%;
+    --primary-foreground: 0 0% 11%;
+    --secondary: 0 0% 27%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 27%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 0 0% 27%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 27%;
+    --input: 0 0% 27%;
+    --ring: 0 0% 90%;
+    --radius: 0.5rem;
+  }
+
+  /* Midnight — very dark */
+  .theme-midnight {
+    --background: 0 0% 6%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
+    --card-hover: 0 0% 13%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 6%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 100%;
+    --radius: 0.5rem;
+  }
+
+  /* Ocean — dark blue, unchanged */
+  .theme-ocean {
+    --background: 217 33% 12%;
+    --foreground: 0 0% 100%;
+    --card: 217 30% 19%;
+    --card-foreground: 0 0% 100%;
+    --card-hover: 217 30% 23%;
+    --popover: 217 30% 19%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 199 89% 60%;
+    --primary-foreground: 222 20% 11%;
+    --secondary: 217 28% 26%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 217 28% 26%;
+    --muted-foreground: 214 15% 65%;
+    --accent: 217 28% 26%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 28% 26%;
+    --input: 217 28% 26%;
+    --ring: 199 89% 60%;
+    --radius: 0.5rem;
+  }
+
+  /* Forest — dark teal-green (shifted bluish) */
+  .theme-forest {
+    --background: 178 25% 10%;
+    --foreground: 0 0% 100%;
+    --card: 178 22% 16%;
+    --card-foreground: 0 0% 100%;
+    --card-hover: 178 22% 20%;
+    --popover: 178 22% 16%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 172 60% 45%;
+    --primary-foreground: 178 25% 10%;
+    --secondary: 178 18% 22%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 178 18% 22%;
+    --muted-foreground: 175 10% 62%;
+    --accent: 178 18% 22%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 178 18% 22%;
+    --input: 178 18% 22%;
+    --ring: 172 60% 45%;
+    --radius: 0.5rem;
+  }
+
+  /* Mist — light gray, unchanged */
+  .theme-mist {
+    --background: 0 0% 96%;
+    --foreground: 0 0% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 15%;
+    --card-hover: 0 0% 92%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 15%;
+    --primary: 0 0% 15%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 91%;
+    --secondary-foreground: 0 0% 15%;
+    --muted: 0 0% 91%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 0% 91%;
+    --accent-foreground: 0 0% 15%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 87%;
+    --input: 0 0% 87%;
+    --ring: 0 0% 15%;
+    --radius: 0.5rem;
+  }
+
+  /* Sunset — dark, warm orange */
+  .theme-sunset {
+    --background: 15 30% 10%;
+    --foreground: 30 20% 96%;
+    --card: 15 28% 16%;
+    --card-foreground: 30 20% 96%;
+    --card-hover: 15 28% 20%;
+    --popover: 15 28% 16%;
+    --popover-foreground: 30 20% 96%;
+    --primary: 24 90% 58%;
+    --primary-foreground: 15 30% 10%;
+    --secondary: 15 22% 22%;
+    --secondary-foreground: 30 20% 96%;
+    --muted: 15 22% 22%;
+    --muted-foreground: 20 15% 65%;
+    --accent: 15 22% 22%;
+    --accent-foreground: 30 20% 96%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 15 22% 22%;
+    --input: 15 22% 22%;
+    --ring: 24 90% 58%;
+    --radius: 0.5rem;
+  }
+
+  /* Grape — dark purple */
+  .theme-grape {
+    --background: 270 25% 10%;
+    --foreground: 0 0% 98%;
+    --card: 270 22% 16%;
+    --card-foreground: 0 0% 98%;
+    --card-hover: 270 22% 20%;
+    --popover: 270 22% 16%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 271 70% 65%;
+    --primary-foreground: 270 25% 10%;
+    --secondary: 270 18% 22%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 270 18% 22%;
+    --muted-foreground: 270 10% 65%;
+    --accent: 270 18% 22%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 270 18% 22%;
+    --input: 270 18% 22%;
+    --ring: 271 70% 65%;
+    --radius: 0.5rem;
+  }
+
+  /* Rose — dark pink */
+  .theme-rose {
+    --background: 340 25% 10%;
+    --foreground: 0 0% 98%;
+    --card: 340 22% 16%;
+    --card-foreground: 0 0% 98%;
+    --card-hover: 340 22% 20%;
+    --popover: 340 22% 16%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 340 75% 60%;
+    --primary-foreground: 340 25% 10%;
+    --secondary: 340 18% 22%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 340 18% 22%;
+    --muted-foreground: 340 10% 65%;
+    --accent: 340 18% 22%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 340 18% 22%;
+    --input: 340 18% 22%;
+    --ring: 340 75% 60%;
+    --radius: 0.5rem;
+  }
+
+  /* Amber — dark warm brown */
+  .theme-amber {
+    --background: 30 20% 9%;
+    --foreground: 40 25% 95%;
+    --card: 30 18% 15%;
+    --card-foreground: 40 25% 95%;
+    --card-hover: 30 18% 19%;
+    --popover: 30 18% 15%;
+    --popover-foreground: 40 25% 95%;
+    --primary: 38 92% 55%;
+    --primary-foreground: 30 20% 9%;
+    --secondary: 30 15% 21%;
+    --secondary-foreground: 40 25% 95%;
+    --muted: 30 15% 21%;
+    --muted-foreground: 35 12% 62%;
+    --accent: 30 15% 21%;
+    --accent-foreground: 40 25% 95%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 15% 21%;
+    --input: 30 15% 21%;
+    --ring: 38 92% 55%;
+    --radius: 0.5rem;
+  }
+
+  /* Mint — light theme */
+  .theme-mint {
+    --background: 150 35% 96%;
+    --foreground: 155 25% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 155 25% 12%;
+    --card-hover: 150 30% 92%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 155 25% 12%;
+    --primary: 152 65% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 150 25% 90%;
+    --secondary-foreground: 155 25% 12%;
+    --muted: 150 25% 90%;
+    --muted-foreground: 155 15% 38%;
+    --accent: 150 25% 90%;
+    --accent-foreground: 155 25% 12%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 150 20% 85%;
+    --input: 150 20% 85%;
+    --ring: 152 65% 40%;
+    --radius: 0.5rem;
+  }
+
+    .theme-obsidian {
+    --background: 215 28% 6%;
+    --foreground: 213 27% 92%;
+    --card: 215 21% 11%;
+    --card-foreground: 213 27% 92%;
+    --card-hover: 215 19% 15%;
+    --popover: 215 21% 11%;
+    --popover-foreground: 213 27% 92%;
+    --primary: 212 92% 65%;
+    --primary-foreground: 215 28% 6%;
+    --secondary: 215 14% 18%;
+    --secondary-foreground: 213 27% 92%;
+    --muted: 215 14% 18%;
+    --muted-foreground: 215 10% 58%;
+    --accent: 215 14% 18%;
+    --accent-foreground: 213 27% 92%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 14% 22%;
+    --input: 215 14% 22%;
+    --ring: 212 92% 65%;
+    --radius: 0.5rem;
+  }
+
+  /* Sapphire — deep jewel-tone blue */
+  .theme-sapphire {
+    --background: 225 45% 8%;
+    --foreground: 0 0% 98%;
+    --card: 225 38% 14%;
+    --card-foreground: 0 0% 98%;
+    --card-hover: 225 36% 18%;
+    --popover: 225 38% 14%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 221 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 225 30% 20%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 225 30% 20%;
+    --muted-foreground: 220 15% 65%;
+    --accent: 225 30% 20%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 225 30% 20%;
+    --input: 225 30% 20%;
+    --ring: 221 83% 58%;
+    --radius: 0.5rem;
+  }
+
+  /* Emerald — rich true green */
+  .theme-emerald {
+    --background: 155 45% 7%;
+    --foreground: 0 0% 98%;
+    --card: 155 38% 13%;
+    --card-foreground: 0 0% 98%;
+    --card-hover: 155 36% 17%;
+    --popover: 155 38% 13%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 152 76% 45%;
+    --primary-foreground: 155 45% 7%;
+    --secondary: 155 28% 19%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 155 28% 19%;
+    --muted-foreground: 150 15% 62%;
+    --accent: 155 28% 19%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 155 28% 19%;
+    --input: 155 28% 19%;
+    --ring: 152 76% 45%;
+    --radius: 0.5rem;
+  }
+
+  /* Amethyst — deep violet-purple, distinct from Grape */
+  .theme-amethyst {
+    --background: 262 45% 8%;
+    --foreground: 0 0% 98%;
+    --card: 262 38% 14%;
+    --card-foreground: 0 0% 98%;
+    --card-hover: 262 36% 18%;
+    --popover: 262 38% 14%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 258 70% 62%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 262 30% 20%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 262 30% 20%;
+    --muted-foreground: 260 15% 65%;
+    --accent: 262 30% 20%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 262 30% 20%;
+    --input: 262 30% 20%;
+    --ring: 258 70% 62%;
+    --radius: 0.5rem;
+  }
+
+  /* Ruby — deep jewel-tone red, distinct from Rose */
+  .theme-ruby {
+    --background: 350 45% 8%;
+    --foreground: 0 0% 98%;
+    --card: 350 38% 14%;
+    --card-foreground: 0 0% 98%;
+    --card-hover: 350 36% 18%;
+    --popover: 350 38% 14%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 350 78% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 350 30% 20%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 350 30% 20%;
+    --muted-foreground: 350 15% 65%;
+    --accent: 350 30% 20%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 350 30% 20%;
+    --input: 350 30% 20%;
+    --ring: 350 78% 52%;
+    --radius: 0.5rem;
+  }
+
+  /* * { @apply border-border; }
+  body { @apply bg-background text-foreground; } */
+}
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -29,9 +428,6 @@ a:hover {
 
 body {
   margin: 0;
-  /* display: flex;
-  place-items: center;
-  min-width: 320px; */
   min-height: 100vh;
 }
 
@@ -47,7 +443,6 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -59,125 +454,34 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-
-
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-  }
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
-}
-
-
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 /* Hide number input arrows in most browsers */
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-/* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
 }
 
-
-/* For WebKit browsers (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #1e1e1e;  /* Dark track background */
+  background: hsl(var(--background));
 }
-
 ::-webkit-scrollbar-thumb {
-  background-color: #e6e6e6; /* Scroll thumb */
+  background-color: hsl(var(--muted-foreground));
   border-radius: 6px;
-  border: 3px solid #1e1e1e; /* Optional: inner padding */
+  border: 3px solid hsl(var(--background));
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #999;
+  background-color: hsl(var(--foreground));
 }
-
-/* For Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #BBB #1e1e1e; /* thumb and track */
+  scrollbar-color: hsl(var(--muted-foreground)) hsl(var(--background));
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -185,14 +489,13 @@ input[type="range"]::-webkit-slider-thumb {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #6366f1;  /* ← Change this color */
+  background: hsl(var(--primary));
   cursor: pointer;
 }
-
 input[type="range"]::-moz-range-thumb {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #6366f1;  /* ← Change this color */
+  background: hsl(var(--primary));
   cursor: pointer;
 }
