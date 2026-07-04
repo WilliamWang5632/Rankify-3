@@ -51,7 +51,7 @@ export default function ThemeToggle({
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-60 bg-popover border border-border rounded-lg shadow-lg p-2 z-50 grid grid-cols-2 gap-1">
+        <div className="absolute right-0 mt-2 w-60 bg-popover border border-border rounded-lg shadow-lg p-2 z-[100] grid grid-cols-2 gap-1">
           {THEMES.map((t) => (
             <button
               key={t.value}
