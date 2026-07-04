@@ -203,8 +203,7 @@ export default function useRating({ collectionId }: UseRatingProps) {
   const filteredAndSortedItems = items
     .filter(
       (item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.review.toLowerCase().includes(searchTerm.toLowerCase())
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .sort((a, b) => {
       switch (sortBy) {

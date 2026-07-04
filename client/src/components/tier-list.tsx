@@ -27,6 +27,11 @@ function buildTiers(items: Rating[]): TierGroup[] {
     if (bucket) bucket.items.push(item);
   }
 
+  // Sort each tier's items so the highest rating is on the left
+  for (const bucket of buckets) {
+    bucket.items.sort((a, b) => b.rating - a.rating);
+  }
+
   return buckets.filter((b) => b.items.length > 0);
 }
 
@@ -48,12 +53,12 @@ export default function TierList({
           key={tier.label}
           className="flex border border-border rounded-lg overflow-hidden bg-card"
         >
-        <div
+          <div
             className="w-16 sm:w-20 shrink-0 flex items-center justify-center text-center font-bold text-white text-xs sm:text-sm p-2"
             style={{ backgroundColor: getRatingColor(tier.min / 10) }}
-        >
+          >
             {tier.label}
-        </div>
+          </div>
           <div className="flex-1 flex flex-wrap gap-2 p-2">
             {tier.items.map((item) => (
               <div
