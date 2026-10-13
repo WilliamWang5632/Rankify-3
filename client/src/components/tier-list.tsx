@@ -22,8 +22,8 @@ function buildTiers(items: Rating[]): TierGroup[] {
   }
 
   for (const item of items) {
-    const percentage = Math.max(0, Math.min(100, (item.rating / 10) * 100));
-    const bucket = buckets.find((b) => percentage >= b.min && percentage <= b.max);
+    const percentage = Math.max(0, Math.min(100, Math.round(item.rating * 10)));
+    const bucket = buckets.find((b) => percentage >= b.min);
     if (bucket) bucket.items.push(item);
   }
 
